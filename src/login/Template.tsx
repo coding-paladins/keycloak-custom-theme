@@ -69,7 +69,9 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
             <header className={kcClsx("kcFormHeaderClass")}>
               {(() => {
                 const node = !(auth !== undefined && auth.showUsername && !auth.showResetCredentials) ? (
-                  headerNode
+                  <div className="flex flex-col items-center gap-2 text-center">
+                    <h1 className="text-2xl font-bold">{headerNode}</h1>
+                  </div>
                 ) : (
                   // <div id="kc-username" className={kcClsx("kcFormGroupClass")}>
                   //   <label id="kc-attempted-username">{auth.attemptedUsername}</label>

@@ -3,8 +3,8 @@ import { kcSanitize } from "keycloakify/lib/kcSanitize";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import { PasswordInput } from "@/components/overrides/custom-password-input";
 import { Checkbox } from "@/components/ui/checkbox";
-import type { KcContext } from "../KcContext";
-import type { I18n } from "../i18n";
+import type { KcContext } from "@/login/KcContext";
+import type { I18n } from "@/login/i18n";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -20,11 +20,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
     <Template
       {...{ kcContext, i18n, doUseDefaultCss, classes }}
       displayMessage={!messagesPerField.existsError("username", "password")}
-      headerNode={
-        <div className="flex flex-col items-center gap-2 text-center mb-4">
-          <h1 className="text-2xl font-bold">{msg("loginAccountTitle")}</h1>
-        </div>
-      }
+      headerNode={msg("loginAccountTitle")}
       displayInfo={realm.password && realm.registrationAllowed && !registrationDisabled}
       infoNode={
         <div className="text-center text-sm mt-4">
