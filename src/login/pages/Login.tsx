@@ -25,7 +25,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
       infoNode={
         <div className="text-center text-sm mt-4">
           {msg("noAccount")}{" "}
-          <a href={url.registrationUrl} className="underline underline-offset-4">
+          <a href={url.registrationUrl} className="underline underline-offset-4" tabIndex={8}>
             {msg("doRegister")}
           </a>
         </div>
@@ -42,6 +42,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
               <Input
                 id="username"
                 name="username"
+                tabIndex={2}
                 defaultValue={login.username ?? ""}
                 type="text"
                 autoFocus
@@ -69,6 +70,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
               )}
             </div>
             <PasswordInput
+              tabIndex={3}
               id="password"
               name="password"
               autoComplete="current-password"
@@ -86,7 +88,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
 
           {realm.rememberMe && !usernameHidden && (
             <div className="flex items-center space-x-2">
-              <Checkbox id="rememberMe" name="rememberMe" defaultChecked={!!login.rememberMe} />
+              <Checkbox id="rememberMe" name="rememberMe" defaultChecked={!!login.rememberMe} tabIndex={5} />
               <label htmlFor="rememberMe" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                 {msg("rememberMe")}
               </label>
@@ -94,7 +96,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
           )}
 
           <input type="hidden" id="id-hidden-input" name="credentialId" value={auth.selectedCredential} />
-          <Button type="submit" className="w-full" disabled={isLoginButtonDisabled}>
+          <Button type="submit" className="w-full" disabled={isLoginButtonDisabled} tabIndex={7}>
             {msgStr("doLogIn")}
           </Button>
         </form>
