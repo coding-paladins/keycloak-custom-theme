@@ -1,4 +1,4 @@
-ARG KEYCLOAK_VERSION=26.1
+ARG KEYCLOAK_VERSION=26.3.3
 
 # Stage 1: Build Keycloak theme JAR
 FROM node:18-alpine AS keycloakify_jar_builder
