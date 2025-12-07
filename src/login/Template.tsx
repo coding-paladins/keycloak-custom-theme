@@ -101,7 +101,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                 {displayMessage && message !== undefined && (message.type !== "warning" || !isAppInitiatedAction) && (
                   <DisplayMessage message={message} />
                 )}
-                <TemplateShell className="w-full">
+                <TemplateShell className="w-full rounded-none md:rounded-xl border-0 md:border shadow-none md:shadow-sm">
                   {headerNode && !(auth !== undefined && auth.showUsername && !auth.showResetCredentials) && (
                     <TemplateHeader>
                       <TemplateTitle>{headerNode}</TemplateTitle>
