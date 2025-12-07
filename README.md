@@ -1,3 +1,5 @@
+<img src="./screenshots//login-2-dark.png" alt="keycloak-custom-theme" width="100%">
+
 # Keycloak Custom Theme
 
 ![build status](https://github.com/paulgrammer/keycloak-custom-theme/actions/workflows/build.yaml/badge.svg)
