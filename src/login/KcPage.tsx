@@ -43,6 +43,7 @@ const SamlPostForm = lazy(() => import("./pages/SamlPostForm"));
 const DeleteCredential = lazy(() => import("./pages/DeleteCredential"));
 const Code = lazy(() => import("./pages/Code"));
 const DeleteAccountConfirm = lazy(() => import("./pages/DeleteAccountConfirm"));
+const FrontchannelLogout = lazy(() => import("./pages/FrontchannelLogout"));
 const Error = lazy(() => import("./pages/Error"));
 const Info = lazy(() => import("./pages/Info"));
 const Terms = lazy(() => import("./pages/Terms"));
@@ -284,6 +285,14 @@ export default function KcPage(props: { kcContext: KcContext }) {
           case "delete-account-confirm.ftl":
             return (
               <DeleteAccountConfirm
+                {...{ kcContext, i18n, classes }}
+                Template={LoginTemplate}
+                doUseDefaultCss={false}
+              />
+            );
+          case "frontchannel-logout.ftl":
+            return (
+              <FrontchannelLogout
                 {...{ kcContext, i18n, classes }}
                 Template={LoginTemplate}
                 doUseDefaultCss={false}
