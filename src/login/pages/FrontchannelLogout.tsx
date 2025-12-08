@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "@/login/KcContext";
 import type { I18n } from "@/login/i18n";
-import { Button, buttonVariants } from "@/components/ui";
+import { buttonVariants } from "@/components/ui";
 import { TemplateContent, TemplateFooter } from "@/login/TemplateComponents";
 
 export default function FrontchannelLogout(props: PageProps<Extract<KcContext, { pageId: "frontchannel-logout.ftl" }>, I18n>) {
