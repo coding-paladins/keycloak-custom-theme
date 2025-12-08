@@ -47,6 +47,7 @@ const FrontchannelLogout = lazy(() => import("./pages/FrontchannelLogout"));
 const LoginRecoveryAuthnCodeConfig = lazy(() => import("./pages/LoginRecoveryAuthnCodeConfig"));
 const LoginRecoveryAuthnCodeInput = lazy(() => import("./pages/LoginRecoveryAuthnCodeInput"));
 const LoginResetOtp = lazy(() => import("./pages/LoginResetOtp"));
+const LoginX509Info = lazy(() => import("./pages/LoginX509Info"));
 const Error = lazy(() => import("./pages/Error"));
 const Info = lazy(() => import("./pages/Info"));
 const Terms = lazy(() => import("./pages/Terms"));
@@ -320,6 +321,14 @@ export default function KcPage(props: { kcContext: KcContext }) {
           case "login-reset-otp.ftl":
             return (
               <LoginResetOtp
+                {...{ kcContext, i18n, classes }}
+                Template={LoginTemplate}
+                doUseDefaultCss={false}
+              />
+            );
+          case "login-x509-info.ftl":
+            return (
+              <LoginX509Info
                 {...{ kcContext, i18n, classes }}
                 Template={LoginTemplate}
                 doUseDefaultCss={false}
