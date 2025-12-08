@@ -1,7 +1,14 @@
 name: Build and upload release assets
+
 on:
+  push:
+    tags:
+      - 'v*'
   release:
     types: [published]
+
+permissions:
+  contents: write
 
 jobs:
   build_and_upload:
