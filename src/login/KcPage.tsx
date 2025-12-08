@@ -36,6 +36,7 @@ const LoginIdpLinkConfirmOverride = lazy(() => import("./pages/LoginIdpLinkConfi
 const LoginPageExpired = lazy(() => import("./pages/LoginPageExpired"));
 const LoginConfigTotp = lazy(() => import("./pages/LoginConfigTotp"));
 const LogoutConfirm = lazy(() => import("./pages/LogoutConfirm"));
+const IdpReviewUserProfile = lazy(() => import("./pages/IdpReviewUserProfile"));
 const Error = lazy(() => import("./pages/Error"));
 const Info = lazy(() => import("./pages/Info"));
 const Terms = lazy(() => import("./pages/Terms"));
@@ -220,6 +221,16 @@ export default function KcPage(props: { kcContext: KcContext }) {
                 {...{ kcContext, i18n, classes }}
                 Template={LoginTemplate}
                 doUseDefaultCss={false}
+              />
+            );
+          case "idp-review-user-profile.ftl":
+            return (
+              <IdpReviewUserProfile
+                {...{ kcContext, i18n, classes }}
+                Template={LoginTemplate}
+                doUseDefaultCss={false}
+                UserProfileFormFields={CustomUserProfileFormFields}
+                doMakeUserConfirmPassword={doMakeUserConfirmPassword}
               />
             );
           case "error.ftl":
