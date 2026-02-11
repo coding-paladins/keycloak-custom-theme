@@ -27,12 +27,16 @@ const LoginOTP = lazy(() => import("./pages/LoginOtp"));
 const WebauthnAuthenticate = lazy(() => import("./pages/WebauthnAuthenticate"));
 const WebauthnRegister = lazy(() => import("./pages/WebauthnRegister"));
 const WebauthnError = lazy(() => import("./pages/WebauthnError"));
-const LoginOauth2DeviceVerifyUserCode = lazy(() => import("./pages/LoginOauth2DeviceVerifyUserCode"));
+const LoginOauth2DeviceVerifyUserCode = lazy(
+  () => import("./pages/LoginOauth2DeviceVerifyUserCode")
+);
 const LoginOauthGrant = lazy(() => import("./pages/LoginOauthGrant"));
 const LinkIdpAction = lazy(() => import("./pages/LinkIdpAction"));
 const LoginIdpLinkConfirm = lazy(() => import("./pages/LoginIdpLinkConfirm"));
 const LoginIdpLinkEmail = lazy(() => import("./pages/LoginIdpLinkEmail"));
-const LoginIdpLinkConfirmOverride = lazy(() => import("./pages/LoginIdpLinkConfirmOverride"));
+const LoginIdpLinkConfirmOverride = lazy(
+  () => import("./pages/LoginIdpLinkConfirmOverride")
+);
 const LoginPageExpired = lazy(() => import("./pages/LoginPageExpired"));
 const LoginConfigTotp = lazy(() => import("./pages/LoginConfigTotp"));
 const LogoutConfirm = lazy(() => import("./pages/LogoutConfirm"));
@@ -44,11 +48,17 @@ const DeleteCredential = lazy(() => import("./pages/DeleteCredential"));
 const Code = lazy(() => import("./pages/Code"));
 const DeleteAccountConfirm = lazy(() => import("./pages/DeleteAccountConfirm"));
 const FrontchannelLogout = lazy(() => import("./pages/FrontchannelLogout"));
-const LoginRecoveryAuthnCodeConfig = lazy(() => import("./pages/LoginRecoveryAuthnCodeConfig"));
-const LoginRecoveryAuthnCodeInput = lazy(() => import("./pages/LoginRecoveryAuthnCodeInput"));
+const LoginRecoveryAuthnCodeConfig = lazy(
+  () => import("./pages/LoginRecoveryAuthnCodeConfig")
+);
+const LoginRecoveryAuthnCodeInput = lazy(
+  () => import("./pages/LoginRecoveryAuthnCodeInput")
+);
 const LoginResetOtp = lazy(() => import("./pages/LoginResetOtp"));
 const LoginX509Info = lazy(() => import("./pages/LoginX509Info"));
-const LoginPasskeysConditionalAuthenticate = lazy(() => import("./pages/LoginPasskeysConditionalAuthenticate"));
+const LoginPasskeysConditionalAuthenticate = lazy(
+  () => import("./pages/LoginPasskeysConditionalAuthenticate")
+);
 const SelectOrganization = lazy(() => import("./pages/SelectOrganization"));
 const Error = lazy(() => import("./pages/Error"));
 const Info = lazy(() => import("./pages/Info"));

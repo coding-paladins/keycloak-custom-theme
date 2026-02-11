@@ -5,7 +5,7 @@
 ![build status](https://github.com/paulgrammer/keycloak-custom-theme/actions/workflows/build.yaml/badge.svg)
 [![Trivy vulnerability scanner](https://github.com/paulgrammer/keycloak-custom-theme/actions/workflows/trivy.yaml/badge.svg?branch=main)](https://github.com/paulgrammer/keycloak-custom-theme/actions/workflows/trivy.yaml)
 <a href="https://ko-fi.com/paulgrammer">
-  <img src="https://ko-fi.com/img/githubbutton_sm.svg" width="150" alt="Support on Ko-fi"/>
+<img src="https://ko-fi.com/img/githubbutton_sm.svg" width="150" alt="Support on Ko-fi"/>
 </a>
 
 A modern, production-ready custom theme for Keycloak built with React, TypeScript, and shadcn/ui components. This theme provides a visually stunning authentication experience with glassmorphism effects, smooth animations, and a fully responsive design.
@@ -68,16 +68,19 @@ Storybook will be available at `http://localhost:6006`.
 To build the Keycloak theme JAR files, you need Maven installed:
 
 **macOS:**
+
 ```bash
 brew install maven
 ```
 
 **Debian/Ubuntu:**
+
 ```bash
 sudo apt-get install maven
 ```
 
 **Windows:**
+
 ```bash
 choco install openjdk
 choco install maven
@@ -92,12 +95,14 @@ pnpm run build-keycloak-theme
 ```
 
 This command will:
+
 1. Build the React application (`pnpm run build`)
 2. Generate Keycloak theme JAR files using Keycloakify
 
 By default, Keycloakify generates multiple JAR files for different Keycloak versions. You can customize this behavior in the [Keycloakify documentation](https://docs.keycloakify.dev/targeting-specific-keycloak-versions).
 
 The generated JAR files will be in the `dist_keycloak/` directory:
+
 - `keycloak-theme-for-kc-22-to-25.jar` - For Keycloak 22-25
 - `keycloak-theme-for-kc-all-other-versions.jar` - For other versions
 
@@ -125,6 +130,7 @@ All UI components are located in `src/components/ui/` and can be customized to m
 ### Styling
 
 The theme uses Tailwind CSS for styling. Key files:
+
 - `src/login/global.css` - Global styles
 - `src/login/custom.css` - Custom theme styles
 
@@ -159,6 +165,7 @@ docker compose up --build
 ```
 
 Keycloak will be available at `http://localhost:8080` with the admin credentials:
+
 - Username: `admin`
 - Password: `adminpassword`
 
@@ -167,11 +174,13 @@ Keycloak will be available at `http://localhost:8080` with the admin credentials
 This project includes a GitHub Actions workflow that automatically builds and publishes theme JAR files as GitHub release artifacts.
 
 To enable the workflow:
+
 1. Go to your repository on GitHub
 2. Navigate to `Settings` > `Actions` > `Workflow permissions`
 3. Select `Read and write permissions`
 
 To release a new version:
+
 1. Update the version in `package.json`
 2. Push to the repository
 3. The workflow will automatically build and publish the theme

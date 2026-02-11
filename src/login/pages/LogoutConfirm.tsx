@@ -10,13 +10,7 @@ export default function LogoutConfirm(props: PageProps<Extract<KcContext, { page
   const { msg, msgStr } = i18n;
 
   return (
-    <Template
-      kcContext={kcContext}
-      i18n={i18n}
-      doUseDefaultCss={doUseDefaultCss}
-      classes={classes}
-      headerNode={msg("logoutConfirmTitle")}
-    >
+    <Template kcContext={kcContext} i18n={i18n} doUseDefaultCss={doUseDefaultCss} classes={classes} headerNode={msg("logoutConfirmTitle")}>
       <TemplateContent className="space-y-6">
         <div id="kc-logout-confirm" className="space-y-6">
           <p className="text-sm text-muted-foreground">{msg("logoutConfirmHeader")}</p>
@@ -38,4 +32,3 @@ export default function LogoutConfirm(props: PageProps<Extract<KcContext, { page
     </Template>
   );
 }
-

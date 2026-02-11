@@ -5,9 +5,7 @@ import type { I18n } from "@/login/i18n";
 import { Button, Input, Field, FieldLabel } from "@/components/ui";
 import { TemplateContent } from "@/login/TemplateComponents";
 
-export default function LoginRecoveryAuthnCodeInput(
-  props: PageProps<Extract<KcContext, { pageId: "login-recovery-authn-code-input.ftl" }>, I18n>
-) {
+export default function LoginRecoveryAuthnCodeInput(props: PageProps<Extract<KcContext, { pageId: "login-recovery-authn-code-input.ftl" }>, I18n>) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
   const { url, messagesPerField, recoveryAuthnCodesInputBean } = kcContext;
   const { msg, msgStr } = i18n;
@@ -24,9 +22,7 @@ export default function LoginRecoveryAuthnCodeInput(
       <TemplateContent>
         <form id="kc-recovery-code-login-form" action={url.loginAction} method="post" className="flex flex-col gap-4">
           <Field>
-            <FieldLabel htmlFor="recoveryCodeInput">
-              {msg("auth-recovery-code-prompt", `${recoveryAuthnCodesInputBean.codeNumber}`)}
-            </FieldLabel>
+            <FieldLabel htmlFor="recoveryCodeInput">{msg("auth-recovery-code-prompt", `${recoveryAuthnCodesInputBean.codeNumber}`)}</FieldLabel>
             <Input
               tabIndex={1}
               id="recoveryCodeInput"
@@ -56,4 +52,3 @@ export default function LoginRecoveryAuthnCodeInput(
     </Template>
   );
 }
-

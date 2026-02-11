@@ -58,7 +58,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
       <AuthPageLayout
-      // @ts-expect-error - client baseUrl is not defined in on context type
+        // @ts-expect-error - client baseUrl is not defined in on context type
         clientURL={client.baseUrl}
         localeOptions={{
           enabledLanguages,

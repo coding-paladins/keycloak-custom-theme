@@ -58,12 +58,7 @@ export default function LoginResetOtp(props: PageProps<Extract<KcContext, { page
                           isChecked ? "border-primary" : "border-muted-foreground"
                         )}
                       >
-                        <div
-                          className={cn(
-                            "w-2 h-2 rounded-full bg-primary transition-opacity",
-                            isChecked ? "opacity-100" : "opacity-0"
-                          )}
-                        />
+                        <div className={cn("w-2 h-2 rounded-full bg-primary transition-opacity", isChecked ? "opacity-100" : "opacity-0")} />
                       </div>
                     </label>
                   </Fragment>
@@ -80,4 +75,3 @@ export default function LoginResetOtp(props: PageProps<Extract<KcContext, { page
     </Template>
   );
 }
-

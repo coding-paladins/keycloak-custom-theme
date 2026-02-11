@@ -7,9 +7,7 @@ import type { I18n } from "@/login/i18n";
 import { Button, Checkbox } from "@/components/ui";
 import { TemplateContent, TemplateFooter } from "@/login/TemplateComponents";
 
-export default function LoginRecoveryAuthnCodeConfig(
-  props: PageProps<Extract<KcContext, { pageId: "login-recovery-authn-code-config.ftl" }>, I18n>
-) {
+export default function LoginRecoveryAuthnCodeConfig(props: PageProps<Extract<KcContext, { pageId: "login-recovery-authn-code-config.ftl" }>, I18n>) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
   const { recoveryAuthnCodesConfigBean, isAppInitiatedAction, url } = kcContext;
   const { msg, msgStr } = i18n;
@@ -20,20 +18,12 @@ export default function LoginRecoveryAuthnCodeConfig(
   useScript({ olRecoveryCodesListId, i18n });
 
   return (
-    <Template
-      kcContext={kcContext}
-      i18n={i18n}
-      doUseDefaultCss={doUseDefaultCss}
-      classes={classes}
-      headerNode={msg("recovery-code-config-header")}
-    >
+    <Template kcContext={kcContext} i18n={i18n} doUseDefaultCss={doUseDefaultCss} classes={classes} headerNode={msg("recovery-code-config-header")}>
       <TemplateContent className="space-y-6">
         <div className="flex items-start gap-3 p-4 border border-yellow-500/50 bg-yellow-500/10 rounded-lg">
           <AlertTriangle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
           <div className="space-y-1">
-            <h4 className="text-sm font-semibold text-yellow-900 dark:text-yellow-100">
-              {msg("recovery-code-config-warning-title")}
-            </h4>
+            <h4 className="text-sm font-semibold text-yellow-900 dark:text-yellow-100">{msg("recovery-code-config-warning-title")}</h4>
             <p className="text-sm text-yellow-900 dark:text-yellow-100">{msg("recovery-code-config-warning-message")}</p>
           </div>
         </div>
@@ -68,7 +58,10 @@ export default function LoginRecoveryAuthnCodeConfig(
             checked={isConfirmationChecked}
             onCheckedChange={(checked: boolean) => setIsConfirmationChecked(checked)}
           />
-          <label htmlFor="kcRecoveryCodesConfirmationCheck" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+          <label
+            htmlFor="kcRecoveryCodesConfirmationCheck"
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
             {msg("recovery-codes-confirmation-message")}
           </label>
         </div>
@@ -99,17 +92,18 @@ export default function LoginRecoveryAuthnCodeConfig(
             >
               {msg("recovery-codes-action-cancel")}
             </Button>
-            <Button
-              type="submit"
-              form="kc-recovery-codes-settings-form"
-              id="saveRecoveryAuthnCodesBtn"
-              disabled={!isConfirmationChecked}
-            >
+            <Button type="submit" form="kc-recovery-codes-settings-form" id="saveRecoveryAuthnCodesBtn" disabled={!isConfirmationChecked}>
               {msgStr("recovery-codes-action-complete")}
             </Button>
           </>
         ) : (
-          <Button type="submit" form="kc-recovery-codes-settings-form" id="saveRecoveryAuthnCodesBtn" disabled={!isConfirmationChecked} className="w-full">
+          <Button
+            type="submit"
+            form="kc-recovery-codes-settings-form"
+            id="saveRecoveryAuthnCodesBtn"
+            disabled={!isConfirmationChecked}
+            className="w-full"
+          >
             {msgStr("recovery-codes-action-complete")}
           </Button>
         )}
@@ -117,4 +111,3 @@ export default function LoginRecoveryAuthnCodeConfig(
     </Template>
   );
 }
-

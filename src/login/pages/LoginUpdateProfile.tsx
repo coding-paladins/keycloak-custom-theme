@@ -54,15 +54,7 @@ export default function LoginUpdateProfile(props: LoginUpdateProfileProps) {
         </Button>
 
         {isAppInitiatedAction && (
-          <Button
-            variant="outline"
-            className="w-full"
-            type="submit"
-            form="kc-update-profile-form"
-            name="cancel-aia"
-            value="true"
-            formNoValidate
-          >
+          <Button variant="outline" className="w-full" type="submit" form="kc-update-profile-form" name="cancel-aia" value="true" formNoValidate>
             {msg("doCancel")}
           </Button>
         )}

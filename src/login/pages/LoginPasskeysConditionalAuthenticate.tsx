@@ -58,9 +58,7 @@ export default function LoginPasskeysConditionalAuthenticate(
             {shouldDisplayAuthenticators && (
               <>
                 {authenticators.authenticators.length > 1 && (
-                  <div className="text-sm font-medium text-muted-foreground mb-4">
-                    {msg("passkey-available-authenticators")}
-                  </div>
+                  <div className="text-sm font-medium text-muted-foreground mb-4">{msg("passkey-available-authenticators")}</div>
                 )}
                 <div className="space-y-3">
                   {authenticators.authenticators.map((authenticator, i) => (
@@ -79,10 +77,7 @@ export default function LoginPasskeysConditionalAuthenticate(
                         {authenticator.transports !== undefined &&
                           authenticator.transports.displayNameProperties !== undefined &&
                           authenticator.transports.displayNameProperties.length !== 0 && (
-                            <div
-                              id={`kc-webauthn-authenticator-transport-${i}`}
-                              className="text-xs text-muted-foreground mb-1"
-                            >
+                            <div id={`kc-webauthn-authenticator-transport-${i}`} className="text-xs text-muted-foreground mb-1">
                               {authenticator.transports.displayNameProperties.map((nameProperty, idx, arr) => (
                                 <Fragment key={idx}>
                                   <span>{advancedMsg(nameProperty)}</span>
@@ -92,9 +87,7 @@ export default function LoginPasskeysConditionalAuthenticate(
                             </div>
                           )}
                         <div className="text-xs text-muted-foreground">
-                          <span id={`kc-webauthn-authenticator-createdlabel-${i}`}>
-                            {msg("passkey-createdAt-label")}{" "}
-                          </span>
+                          <span id={`kc-webauthn-authenticator-createdlabel-${i}`}>{msg("passkey-createdAt-label")} </span>
                           <span id={`kc-webauthn-authenticator-created-${i}`}>{authenticator.createdAt}</span>
                         </div>
                       </div>
@@ -160,4 +153,3 @@ export default function LoginPasskeysConditionalAuthenticate(
     </Template>
   );
 }
-

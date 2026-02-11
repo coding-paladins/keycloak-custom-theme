@@ -36,4 +36,3 @@ export default function DeleteCredential(props: PageProps<Extract<KcContext, { p
     </Template>
   );
 }
-

@@ -26,9 +26,9 @@ jobs:
         env:
           TRIVY_DB_REPOSITORY: "public.ecr.aws/aquasecurity/trivy-db:2"
         with:
-          image-ref: 'test/keycloak-custom-theme:latest'
-          format: 'table'
-          exit-code: '1'
+          image-ref: "test/keycloak-custom-theme:latest"
+          format: "table"
+          exit-code: "1"
           ignore-unfixed: true
-          vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH,MEDIUM,LOW,UNKNOWN'
+          vuln-type: "os,library"
+          severity: "CRITICAL,HIGH,MEDIUM,LOW,UNKNOWN"

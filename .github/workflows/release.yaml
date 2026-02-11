@@ -3,7 +3,7 @@ name: Build and upload release assets
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
   release:
     types: [published]
 

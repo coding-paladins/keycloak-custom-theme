@@ -74,25 +74,11 @@ export default function LoginUpdatePassword(props: PageProps<Extract<KcContext, 
       </TemplateContent>
       <TemplateFooter className="flex-col gap-2">
         <div className="flex gap-2 w-full">
-          <Button
-            type="submit"
-            form="kc-passwd-update-form"
-            className="flex-1"
-            disabled={isSubmitButtonDisabled}
-            id="kc-submit"
-          >
+          <Button type="submit" form="kc-passwd-update-form" className="flex-1" disabled={isSubmitButtonDisabled} id="kc-submit">
             {msgStr("doSubmit")}
           </Button>
           {isAppInitiatedAction && (
-            <Button
-              type="submit"
-              form="kc-passwd-update-form"
-              className="flex-1"
-              variant="outline"
-              name="cancel-aia"
-              value="true"
-              id="kc-cancel"
-            >
+            <Button type="submit" form="kc-passwd-update-form" className="flex-1" variant="outline" name="cancel-aia" value="true" id="kc-cancel">
               {msgStr("doCancel")}
             </Button>
           )}

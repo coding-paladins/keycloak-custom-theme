@@ -12,7 +12,7 @@ export {
   CardTitle,
   CardAction,
   CardDescription,
-  CardContent,
+  CardContent
 } from "./card";
 
 // Checkbox components
@@ -34,19 +34,14 @@ export {
   DropdownMenuShortcut,
   DropdownMenuSub,
   DropdownMenuSubTrigger,
-  DropdownMenuSubContent,
+  DropdownMenuSubContent
 } from "./dropdown-menu";
 
 // Input components
 export { Input } from "./input";
 
 // Input OTP components
-export {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot,
-  InputOTPSeparator,
-} from "./input-otp";
+export { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from "./input-otp";
 
 // Label components
 export { Label } from "./label";
@@ -65,19 +60,14 @@ export {
   SelectScrollUpButton,
   SelectSeparator,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from "./select";
 
 // Textarea components
 export { Textarea } from "./textarea";
 
 // Tooltip components
-export {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-  TooltipProvider,
-} from "./tooltip";
+export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "./tooltip";
 
 // Field components
 export {
@@ -90,6 +80,5 @@ export {
   FieldSeparator,
   FieldSet,
   FieldContent,
-  FieldTitle,
+  FieldTitle
 } from "./field";
-

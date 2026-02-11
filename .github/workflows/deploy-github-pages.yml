@@ -3,7 +3,7 @@ name: Build and Publish Storybook to GitHub Pages
 on:
   push:
     branches:
-      - 'main'
+      - "main"
 
 # Prevent multiple concurrent deployments
 concurrency:
@@ -30,7 +30,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: "22"
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -49,7 +49,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './storybook-static'
+          path: "./storybook-static"
 
       - name: Deploy to GitHub Pages
         id: deployment

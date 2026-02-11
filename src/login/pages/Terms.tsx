@@ -36,4 +36,3 @@ export default function Terms(props: PageProps<Extract<KcContext, { pageId: "ter
     </Template>
   );
 }
-

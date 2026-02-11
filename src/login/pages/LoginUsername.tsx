@@ -11,7 +11,8 @@ import { cn } from "@/lib/utils";
 
 export default function LoginUsername(props: PageProps<Extract<KcContext, { pageId: "login-username.ftl" }>, I18n>) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
-  const { social, realm, url, usernameHidden, login, registrationDisabled, messagesPerField, enableWebAuthnConditionalUI, authenticators } = kcContext;
+  const { social, realm, url, usernameHidden, login, registrationDisabled, messagesPerField, enableWebAuthnConditionalUI, authenticators } =
+    kcContext;
   const [isLoginButtonDisabled, setIsLoginButtonDisabled] = useState(false);
   const { msg, msgStr } = i18n;
 
@@ -115,12 +116,7 @@ export default function LoginUsername(props: PageProps<Extract<KcContext, { page
                   </form>
                 )}
 
-                <Button
-                  id={webAuthnButtonId}
-                  type="button"
-                  variant="outline"
-                  className="w-full gap-2"
-                >
+                <Button id={webAuthnButtonId} type="button" variant="outline" className="w-full gap-2">
                   <Fingerprint className="w-4 h-4" />
                   {msgStr("passkey-doAuthenticate")}
                 </Button>
@@ -129,22 +125,14 @@ export default function LoginUsername(props: PageProps<Extract<KcContext, { page
 
             {/* Social providers separator */}
             {social?.providers && social.providers.length > 0 && (
-              <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
-                {msgStr("identity-provider-login-label")}
-              </FieldSeparator>
+              <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">{msgStr("identity-provider-login-label")}</FieldSeparator>
             )}
           </TemplateContent>
           <TemplateFooter className="flex-col gap-2 space-y-6">
             {social?.providers && social.providers.length > 0 && (
               <div className={cn("w-full grid gap-3 grid-cols-1", social.providers.length > 1 && "md:grid-cols-2")}>
-                {social.providers.map((p) => (
-                  <SocialProviderButton
-                    key={p.alias}
-                    alias={p.alias}
-                    displayName={p.displayName}
-                    loginUrl={p.loginUrl}
-                    id={`social-${p.alias}`}
-                  />
+                {social.providers.map(p => (
+                  <SocialProviderButton key={p.alias} alias={p.alias} displayName={p.displayName} loginUrl={p.loginUrl} id={`social-${p.alias}`} />
                 ))}
               </div>
             )}

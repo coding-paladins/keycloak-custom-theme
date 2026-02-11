@@ -60,7 +60,9 @@ export default function Register(props: RegisterProps) {
           />
 
           {termsAcceptanceRequired && (
-            <div className={cn("space-x-3 space-y-0 rounded-md border p-4 mt-2", messagesPerField.existsError("termsAccepted") && "border-destructive")}>
+            <div
+              className={cn("space-x-3 space-y-0 rounded-md border p-4 mt-2", messagesPerField.existsError("termsAccepted") && "border-destructive")}
+            >
               <div className="items-top flex space-x-2">
                 <Checkbox
                   id="termsAccepted"
@@ -70,7 +72,10 @@ export default function Register(props: RegisterProps) {
                   aria-invalid={messagesPerField.existsError("termsAccepted")}
                 />
                 <div className="grid gap-1.5 leading-none">
-                  <label htmlFor="termsAccepted" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                  <label
+                    htmlFor="termsAccepted"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
                     {msg("termsTitle")}
                   </label>
                   <p className="text-sm text-muted-foreground">{msg("acceptTerms")}</p>
@@ -110,7 +115,12 @@ export default function Register(props: RegisterProps) {
             {msgStr("doRegister")}
           </Button>
         ) : (
-          <Button className="w-full" type="submit" form="kc-register-form" disabled={!isFormSubmittable || (termsAcceptanceRequired && !areTermsAccepted)}>
+          <Button
+            className="w-full"
+            type="submit"
+            form="kc-register-form"
+            disabled={!isFormSubmittable || (termsAcceptanceRequired && !areTermsAccepted)}
+          >
             {msgStr("doRegister")}
           </Button>
         )}

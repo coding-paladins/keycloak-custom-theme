@@ -43,12 +43,7 @@ export default function WebauthnRegister(props: PageProps<Extract<KcContext, { p
 
         <LogoutOtherSessions i18n={i18n} />
 
-        <Button
-          type="button"
-          id={authButtonId}
-          className="w-full gap-2"
-          autoFocus
-        >
+        <Button type="button" id={authButtonId} className="w-full gap-2" autoFocus>
           <Fingerprint className="w-4 h-4" />
           {msgStr("doRegisterSecurityKey")}
         </Button>
@@ -57,14 +52,7 @@ export default function WebauthnRegister(props: PageProps<Extract<KcContext, { p
       {!isSetRetry && isAppInitiatedAction && (
         <TemplateFooter>
           <form action={url.loginAction} id="kc-webauthn-settings-form" method="post" className="w-full">
-            <Button
-              type="submit"
-              variant="outline"
-              id="cancelWebAuthnAIA"
-              name="cancel-aia"
-              value="true"
-              className="w-full"
-            >
+            <Button type="submit" variant="outline" id="cancelWebAuthnAIA" name="cancel-aia" value="true" className="w-full">
               {msg("doCancel")}
             </Button>
           </form>
@@ -87,4 +75,3 @@ function LogoutOtherSessions(props: { i18n: I18n }) {
     </div>
   );
 }
-

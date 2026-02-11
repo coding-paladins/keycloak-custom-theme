@@ -22,12 +22,7 @@ export default function LoginOauth2DeviceVerifyUserCode(
       headerNode={msg("oauth2DeviceVerificationTitle")}
     >
       <TemplateContent>
-        <form
-          id="kc-user-verify-device-user-code-form"
-          className="flex flex-col gap-4"
-          action={url.oauth2DeviceVerificationAction}
-          method="post"
-        >
+        <form id="kc-user-verify-device-user-code-form" className="flex flex-col gap-4" action={url.oauth2DeviceVerificationAction} method="post">
           <Field>
             <FieldLabel htmlFor="device-user-code">{msg("verifyOAuth2DeviceUserCode")}</FieldLabel>
             <Input
@@ -56,4 +51,3 @@ export default function LoginOauth2DeviceVerifyUserCode(
     </Template>
   );
 }
-

@@ -3,7 +3,23 @@ import { kcSanitize } from "keycloakify/lib/kcSanitize";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "@/login/KcContext";
 import type { I18n } from "@/login/i18n";
-import { Button, InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot, Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, RadioGroup, RadioGroupItem, Field, FieldLabel } from "@/components/ui";
+import {
+  Button,
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+  Label,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  RadioGroup,
+  RadioGroupItem,
+  Field,
+  FieldLabel
+} from "@/components/ui";
 import { TemplateContent } from "@/login/TemplateComponents";
 import { Smartphone } from "lucide-react";
 
@@ -87,9 +103,7 @@ export default function LoginOtp(props: Readonly<PageProps<Extract<KcContext, { 
 
           {/* OTP Input */}
           <Field>
-            <FieldLabel htmlFor="otp">
-              {msg("loginOtpOneTime")}
-            </FieldLabel>
+            <FieldLabel htmlFor="otp">{msg("loginOtpOneTime")}</FieldLabel>
             <InputOTP maxLength={6} name="otp" autoComplete="off" aria-invalid={hasError}>
               <InputOTPGroup className="w-full">
                 <InputOTPSlot className="flex-1" index={0} />

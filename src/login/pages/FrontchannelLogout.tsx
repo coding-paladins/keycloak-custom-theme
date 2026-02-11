@@ -62,4 +62,3 @@ export default function FrontchannelLogout(props: PageProps<Extract<KcContext, {
     </Template>
   );
 }
-

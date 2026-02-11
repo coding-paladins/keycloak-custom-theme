@@ -9,13 +9,7 @@ export default function LoginIdpLinkEmail(props: PageProps<Extract<KcContext, { 
   const { msg } = i18n;
 
   return (
-    <Template
-      kcContext={kcContext}
-      i18n={i18n}
-      doUseDefaultCss={doUseDefaultCss}
-      classes={classes}
-      headerNode={msg("emailLinkIdpTitle", idpAlias)}
-    >
+    <Template kcContext={kcContext} i18n={i18n} doUseDefaultCss={doUseDefaultCss} classes={classes} headerNode={msg("emailLinkIdpTitle", idpAlias)}>
       <TemplateContent className="space-y-4">
         <p id="instruction1" className="text-sm text-muted-foreground">
           {msg("emailLinkIdp1", idpAlias, brokerContext.username, realm.displayName)}

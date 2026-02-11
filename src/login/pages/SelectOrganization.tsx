@@ -103,4 +103,3 @@ export default function SelectOrganization(props: PageProps<Extract<KcContext, {
     </Template>
   );
 }
-

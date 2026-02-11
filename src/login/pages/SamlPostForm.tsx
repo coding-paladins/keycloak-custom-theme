@@ -27,13 +27,7 @@ export default function SamlPostForm(props: PageProps<Extract<KcContext, { pageI
   }, [htmlFormElement, samlPost.url]);
 
   return (
-    <Template
-      kcContext={kcContext}
-      i18n={i18n}
-      doUseDefaultCss={doUseDefaultCss}
-      classes={classes}
-      headerNode={msg("saml.post-form.title")}
-    >
+    <Template kcContext={kcContext} i18n={i18n} doUseDefaultCss={doUseDefaultCss} classes={classes} headerNode={msg("saml.post-form.title")}>
       <TemplateContent className="space-y-4">
         <p className="text-sm text-muted-foreground">{msg("saml.post-form.message")}</p>
         <form name="saml-post-binding" method="post" action={samlPost.url} ref={setHtmlFormElement} className="hidden">
@@ -49,4 +43,3 @@ export default function SamlPostForm(props: PageProps<Extract<KcContext, { pageI
     </Template>
   );
 }
-

@@ -21,9 +21,7 @@ export default function LoginOauthGrant(props: PageProps<Extract<KcContext, { pa
           {client.attributes.logoUri && (
             <img src={client.attributes.logoUri} alt={client.name || client.clientId} className="h-16 w-16 object-contain" />
           )}
-          <p className="text-center">
-            {client.name ? msg("oauthGrantTitle", advancedMsgStr(client.name)) : msg("oauthGrantTitle", client.clientId)}
-          </p>
+          <p className="text-center">{client.name ? msg("oauthGrantTitle", advancedMsgStr(client.name)) : msg("oauthGrantTitle", client.clientId)}</p>
         </div>
       }
     >
@@ -87,4 +85,3 @@ export default function LoginOauthGrant(props: PageProps<Extract<KcContext, { pa
     </Template>
   );
 }
-

@@ -96,13 +96,7 @@ export default function LoginConfigTotp(props: PageProps<Extract<KcContext, { pa
             <FieldLabel htmlFor="totp">
               {msg("authenticatorCode")} <span className="text-destructive">*</span>
             </FieldLabel>
-            <Input
-              type="text"
-              id="totp"
-              name="totp"
-              autoComplete="off"
-              aria-invalid={messagesPerField.existsError("totp")}
-            />
+            <Input type="text" id="totp" name="totp" autoComplete="off" aria-invalid={messagesPerField.existsError("totp")} />
             {messagesPerField.existsError("totp") && (
               <span
                 id="input-error-otp-code"
@@ -121,13 +115,7 @@ export default function LoginConfigTotp(props: PageProps<Extract<KcContext, { pa
             <FieldLabel htmlFor="userLabel">
               {msg("loginTotpDeviceName")} {totp.otpCredentials.length >= 1 && <span className="text-destructive">*</span>}
             </FieldLabel>
-            <Input
-              type="text"
-              id="userLabel"
-              name="userLabel"
-              autoComplete="off"
-              aria-invalid={messagesPerField.existsError("userLabel")}
-            />
+            <Input type="text" id="userLabel" name="userLabel" autoComplete="off" aria-invalid={messagesPerField.existsError("userLabel")} />
             {messagesPerField.existsError("userLabel") && (
               <span
                 id="input-error-otp-label"
@@ -166,4 +154,3 @@ export default function LoginConfigTotp(props: PageProps<Extract<KcContext, { pa
     </Template>
   );
 }
-

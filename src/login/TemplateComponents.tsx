@@ -6,7 +6,7 @@ import {
   CardContent as TemplateContent,
   CardFooter as TemplateFooter,
   CardDescription as TemplateDescription,
-  CardAction as TemplateAction,
+  CardAction as TemplateAction
 } from "@/components/ui";
 
 export {
@@ -16,6 +16,5 @@ export {
   TemplateContent,
   TemplateFooter,
   TemplateDescription,
-  TemplateAction,
+  TemplateAction
 };
-

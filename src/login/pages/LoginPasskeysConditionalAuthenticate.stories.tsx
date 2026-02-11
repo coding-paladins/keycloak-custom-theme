@@ -56,4 +56,3 @@ export const Default: Story = {
     />
   )
 };
-

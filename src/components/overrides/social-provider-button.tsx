@@ -39,7 +39,12 @@ const getProviderStyles = (alias: string) => {
   }
 };
 
-export function SocialProviderButton({ alias, displayName, loginUrl, id }: SocialProviderButtonProps) {
+export function SocialProviderButton({
+  alias,
+  displayName,
+  loginUrl,
+  id
+}: SocialProviderButtonProps) {
   return (
     <Button
       variant="outline"
@@ -60,4 +65,3 @@ export function SocialProviderButton({ alias, displayName, loginUrl, id }: Socia
     </Button>
   );
 }
-

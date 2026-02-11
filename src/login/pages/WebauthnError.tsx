@@ -44,14 +44,7 @@ export default function WebauthnError(props: PageProps<Extract<KcContext, { page
           <input type="hidden" id="isSetRetry" name="isSetRetry" />
         </form>
 
-        <Button
-          type="button"
-          tabIndex={4}
-          onClick={handleTryAgain}
-          name="try-again"
-          id="kc-try-again"
-          className="w-full"
-        >
+        <Button type="button" tabIndex={4} onClick={handleTryAgain} name="try-again" id="kc-try-again" className="w-full">
           {msgStr("doTryAgain")}
         </Button>
       </TemplateContent>
@@ -59,14 +52,7 @@ export default function WebauthnError(props: PageProps<Extract<KcContext, { page
       {isAppInitiatedAction && (
         <TemplateFooter>
           <form action={url.loginAction} id="kc-webauthn-settings-form" method="post" className="w-full">
-            <Button
-              type="submit"
-              variant="outline"
-              id="cancelWebAuthnAIA"
-              name="cancel-aia"
-              value="true"
-              className="w-full"
-            >
+            <Button type="submit" variant="outline" id="cancelWebAuthnAIA" name="cancel-aia" value="true" className="w-full">
               {msgStr("doCancel")}
             </Button>
           </form>
@@ -75,4 +61,3 @@ export default function WebauthnError(props: PageProps<Extract<KcContext, { page
     </Template>
   );
 }
-

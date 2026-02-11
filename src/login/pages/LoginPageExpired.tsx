@@ -9,13 +9,7 @@ export default function LoginPageExpired(props: PageProps<Extract<KcContext, { p
   const { msg } = i18n;
 
   return (
-    <Template
-      kcContext={kcContext}
-      i18n={i18n}
-      doUseDefaultCss={doUseDefaultCss}
-      classes={classes}
-      headerNode={msg("pageExpiredTitle")}
-    >
+    <Template kcContext={kcContext} i18n={i18n} doUseDefaultCss={doUseDefaultCss} classes={classes} headerNode={msg("pageExpiredTitle")}>
       <TemplateContent>
         <p id="instruction1" className="text-sm text-muted-foreground space-y-2">
           <span>
@@ -38,4 +32,3 @@ export default function LoginPageExpired(props: PageProps<Extract<KcContext, { p
     </Template>
   );
 }
-

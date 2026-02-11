@@ -5,21 +5,13 @@ import type { I18n } from "@/login/i18n";
 import { Button } from "@/components/ui";
 import { TemplateContent, TemplateFooter } from "@/login/TemplateComponents";
 
-export default function DeleteAccountConfirm(
-  props: PageProps<Extract<KcContext, { pageId: "delete-account-confirm.ftl" }>, I18n>
-) {
+export default function DeleteAccountConfirm(props: PageProps<Extract<KcContext, { pageId: "delete-account-confirm.ftl" }>, I18n>) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
   const { url, triggered_from_aia } = kcContext;
   const { msg, msgStr } = i18n;
 
   return (
-    <Template
-      kcContext={kcContext}
-      i18n={i18n}
-      doUseDefaultCss={doUseDefaultCss}
-      classes={classes}
-      headerNode={msg("deleteAccountConfirm")}
-    >
+    <Template kcContext={kcContext} i18n={i18n} doUseDefaultCss={doUseDefaultCss} classes={classes} headerNode={msg("deleteAccountConfirm")}>
       <TemplateContent className="space-y-6">
         <form action={url.loginAction} method="post" id="kc-delete-account-form" className="space-y-6">
           <div className="flex items-start gap-3 p-4 border border-yellow-500/50 bg-yellow-500/10 rounded-lg">
@@ -50,4 +42,3 @@ export default function DeleteAccountConfirm(
     </Template>
   );
 }
-

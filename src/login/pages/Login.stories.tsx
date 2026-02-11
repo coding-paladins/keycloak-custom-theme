@@ -22,7 +22,8 @@ export const WithBackButton: Story = {
       kcContext={{
         client: {
           // @ts-expect-error - baseUrl is not defined in on context type
-          baseUrl: "https://example.com"}
+          baseUrl: "https://example.com"
+        }
       }}
     />
   )

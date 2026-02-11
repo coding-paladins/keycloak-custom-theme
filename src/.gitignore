@@ -1,7 +1,9 @@
 # This file is managed by Keycloakify, do not edit it manually.
 
 # === Owned files start ===
+# account/KcContext.ts
 # account/KcPage.tsx
+# shared/keycloak-ui-shared/context/KeycloakContext.tsx
 # === Owned files end =====
 
 # === @keycloakify/keycloak-ui-shared v260502.0.0 ===
@@ -18,7 +20,6 @@
 /shared/keycloak-ui-shared/context/environment.ts
 /shared/keycloak-ui-shared/context/ErrorPage.tsx
 /shared/keycloak-ui-shared/context/HelpContext.tsx
-/shared/keycloak-ui-shared/context/KeycloakContext.tsx
 /shared/keycloak-ui-shared/continue-cancel/ContinueCancelModal.tsx
 /shared/keycloak-ui-shared/controls/FileUploadControl.tsx
 /shared/keycloak-ui-shared/controls/FormErrorText.tsx
@@ -80,7 +81,6 @@
 /account/environment.ts
 /account/i18next.d.ts
 /account/KcAccountUi.tsx
-/account/KcContext.ts
 /account/routes.tsx
 /account/account-security/AccountRow.tsx
 /account/account-security/DeviceActivity.tsx

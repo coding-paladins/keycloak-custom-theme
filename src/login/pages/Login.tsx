@@ -13,7 +13,8 @@ import { cn } from "@/lib/utils";
 
 export default function Login(props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
-  const { social, realm, url, usernameHidden, login, auth, registrationDisabled, messagesPerField, enableWebAuthnConditionalUI, authenticators } = kcContext;
+  const { social, realm, url, usernameHidden, login, auth, registrationDisabled, messagesPerField, enableWebAuthnConditionalUI, authenticators } =
+    kcContext;
   const [isLoginButtonDisabled, setIsLoginButtonDisabled] = useState(false);
   const { msg, msgStr } = i18n;
 
@@ -100,7 +101,10 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
                 {realm.rememberMe && !usernameHidden && (
                   <div className="flex items-center space-x-2">
                     <Checkbox id="rememberMe" name="rememberMe" defaultChecked={!!login.rememberMe} tabIndex={5} />
-                    <label htmlFor="rememberMe" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    <label
+                      htmlFor="rememberMe"
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
                       {msg("rememberMe")}
                     </label>
                   </div>
@@ -134,12 +138,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
                   </form>
                 )}
 
-                <Button
-                  id={webAuthnButtonId}
-                  type="button"
-                  variant="outline"
-                  className="w-full gap-2"
-                >
+                <Button id={webAuthnButtonId} type="button" variant="outline" className="w-full gap-2">
                   <Fingerprint className="w-4 h-4" />
                   {msgStr("passkey-doAuthenticate")}
                 </Button>
@@ -148,23 +147,15 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
 
             {/* Social providers separator */}
             {social?.providers && social.providers.length > 0 && (
-              <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
-                {msgStr("identity-provider-login-label")}
-              </FieldSeparator>
+              <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">{msgStr("identity-provider-login-label")}</FieldSeparator>
             )}
           </TemplateContent>
           <TemplateFooter className="flex-col gap-2 space-y-6">
             <div id="kc-social-providers" className="w-full">
               {social?.providers && social.providers.length > 0 && (
                 <div className={cn("grid gap-3 grid-cols-1", social.providers.length > 1 && "md:grid-cols-2")}>
-                  {social.providers.map((p) => (
-                    <SocialProviderButton
-                      key={p.alias}
-                      alias={p.alias}
-                      displayName={p.displayName}
-                      loginUrl={p.loginUrl}
-                      id={`social-${p.alias}`}
-                    />
+                  {social.providers.map(p => (
+                    <SocialProviderButton key={p.alias} alias={p.alias} displayName={p.displayName} loginUrl={p.loginUrl} id={`social-${p.alias}`} />
                   ))}
                 </div>
               )}

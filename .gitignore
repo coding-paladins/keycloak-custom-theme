@@ -57,3 +57,4 @@ jspm_packages
 /storybook-static
 .pnpm-store/*
 kubeconfig
+.keycloakify/*

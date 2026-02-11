@@ -1,4 +1,4 @@
-ARG KEYCLOAK_VERSION=26.5.2
+ARG KEYCLOAK_VERSION=26.5.3
 
 # Stage 1: Build Keycloak theme JAR
 FROM node:20-alpine AS keycloakify_jar_builder
@@ -11,17 +11,38 @@ RUN apk update && \
 WORKDIR /opt/app
 COPY package.json pnpm-lock.yaml ./
 RUN npm install -g pnpm
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile --ignore-scripts
 
-# Copy source and build
+# Copy source, run postinstall (keycloakify sync-extensions), then build
 COPY . .
+RUN pnpm run postinstall
 RUN pnpm build-keycloak-theme
+
+# Select the theme JAR matching Keycloak version and copy to a fixed path.
+# Multiple JARs use different parent themes (e.g. 21-and-below uses parent=keycloak);
+# Keycloak 26.x lacks the keycloak theme - the 26.2-and-above JAR correctly uses parent=account-v1.
+ARG KEYCLOAK_VERSION
+RUN set -e && \
+    MAJOR=$(echo "${KEYCLOAK_VERSION}" | cut -d. -f1) && \
+    MINOR=$(echo "${KEYCLOAK_VERSION}" | cut -d. -f2) && \
+    if [ "${MAJOR}" -le 21 ]; then \
+        cp /opt/app/dist_keycloak/keycloak-theme-for-kc-21-and-below.jar /opt/app/dist_keycloak/theme.jar; \
+    elif [ "${MAJOR}" -eq 23 ]; then \
+        cp /opt/app/dist_keycloak/keycloak-theme-for-kc-23.jar /opt/app/dist_keycloak/theme.jar; \
+    elif [ "${MAJOR}" -eq 24 ]; then \
+        cp /opt/app/dist_keycloak/keycloak-theme-for-kc-24.jar /opt/app/dist_keycloak/theme.jar; \
+    elif [ "${MAJOR}" -eq 25 ]; then \
+        cp /opt/app/dist_keycloak/keycloak-theme-for-kc-25.jar /opt/app/dist_keycloak/theme.jar; \
+    elif [ "${MAJOR}" -eq 26 ] && [ "${MINOR}" -le 1 ]; then \
+        cp /opt/app/dist_keycloak/keycloak-theme-for-kc-26.0-to-26.1.jar /opt/app/dist_keycloak/theme.jar; \
+    else \
+        cp /opt/app/dist_keycloak/keycloak-theme-for-kc-26.2-and-above.jar /opt/app/dist_keycloak/theme.jar; \
+    fi
 
 # Stage 2: Build Keycloak server with the theme
 FROM quay.io/keycloak/keycloak:${KEYCLOAK_VERSION} AS builder
 
-# Copy theme JAR
-COPY --from=keycloakify_jar_builder /opt/app/dist_keycloak/*.jar /opt/keycloak/providers/
+COPY --from=keycloakify_jar_builder /opt/app/dist_keycloak/theme.jar /opt/keycloak/providers/
 
 # Configure the database vendor and enable health and metrics endpoints.
 ENV KC_DB=postgres

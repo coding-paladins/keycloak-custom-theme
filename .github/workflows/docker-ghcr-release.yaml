@@ -4,16 +4,16 @@ name: Build and push Docker image to GHCR
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
   release:
     types: [published]
   pull_request:
     branches:
       - main
     paths:
-      - 'Dockerfile'
-      - 'src/**'
-      - '.github/workflows/docker-ghcr-release.yaml'
+      - "Dockerfile"
+      - "src/**"
+      - ".github/workflows/docker-ghcr-release.yaml"
 
 env:
   REGISTRY: ghcr.io

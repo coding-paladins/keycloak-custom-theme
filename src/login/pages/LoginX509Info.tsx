@@ -11,13 +11,7 @@ export default function LoginX509Info(props: PageProps<Extract<KcContext, { page
   const { msg, msgStr } = i18n;
 
   return (
-    <Template
-      kcContext={kcContext}
-      i18n={i18n}
-      doUseDefaultCss={doUseDefaultCss}
-      classes={classes}
-      headerNode={msg("doLogIn")}
-    >
+    <Template kcContext={kcContext} i18n={i18n} doUseDefaultCss={doUseDefaultCss} classes={classes} headerNode={msg("doLogIn")}>
       <TemplateContent className="space-y-6">
         <form id="kc-x509-login-info" action={url.loginAction} method="post" className="space-y-6">
           <Field>
@@ -55,4 +49,3 @@ export default function LoginX509Info(props: PageProps<Extract<KcContext, { page
     </Template>
   );
 }
-

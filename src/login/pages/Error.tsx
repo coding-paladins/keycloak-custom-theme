@@ -21,10 +21,7 @@ export default function Error(props: PageProps<Extract<KcContext, { pageId: "err
     >
       <TemplateContent className="space-y-4">
         <div id="kc-error-message" className="space-y-4">
-          <p
-            className="text-sm text-muted-foreground"
-            dangerouslySetInnerHTML={{ __html: kcSanitize(message.summary) }}
-          />
+          <p className="text-sm text-muted-foreground" dangerouslySetInnerHTML={{ __html: kcSanitize(message.summary) }} />
           {!skipLink && client !== undefined && client.baseUrl !== undefined && (
             <a id="backToApplication" href={client.baseUrl} className={buttonVariants({ variant: "link" })}>
               {msg("backToApplication")}
@@ -35,4 +32,3 @@ export default function Error(props: PageProps<Extract<KcContext, { pageId: "err
     </Template>
   );
 }
-

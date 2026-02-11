@@ -10,32 +10,13 @@ export default function LoginIdpLinkConfirm(props: PageProps<Extract<KcContext, 
   const { msg } = i18n;
 
   return (
-    <Template
-      kcContext={kcContext}
-      i18n={i18n}
-      doUseDefaultCss={doUseDefaultCss}
-      classes={classes}
-      headerNode={msg("confirmLinkIdpTitle")}
-    >
+    <Template kcContext={kcContext} i18n={i18n} doUseDefaultCss={doUseDefaultCss} classes={classes} headerNode={msg("confirmLinkIdpTitle")}>
       <TemplateContent>
         <form id="kc-register-form" action={url.loginAction} method="post" className="space-y-4">
-          <Button
-            type="submit"
-            name="submitAction"
-            id="updateProfile"
-            value="updateProfile"
-            variant="outline"
-            className="w-full"
-          >
+          <Button type="submit" name="submitAction" id="updateProfile" value="updateProfile" variant="outline" className="w-full">
             {msg("confirmLinkIdpReviewProfile")}
           </Button>
-          <Button
-            type="submit"
-            name="submitAction"
-            id="linkAccount"
-            value="linkAccount"
-            className="w-full"
-          >
+          <Button type="submit" name="submitAction" id="linkAccount" value="linkAccount" className="w-full">
             {msg("confirmLinkIdpContinue", idpAlias)}
           </Button>
         </form>
@@ -43,4 +24,3 @@ export default function LoginIdpLinkConfirm(props: PageProps<Extract<KcContext, 
     </Template>
   );
 }
-

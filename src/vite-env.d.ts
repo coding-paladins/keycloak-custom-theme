@@ -1,5 +1,10 @@
 /// <reference types="vite/client" />
 
+declare module "*.properties?raw" {
+  const content: string;
+  export default content;
+}
+
 // Make JSX namespace available globally
 import "react";
 

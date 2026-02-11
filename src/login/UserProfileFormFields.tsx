@@ -1,4 +1,4 @@
-import { useEffect, Fragment } from "react";
+import { useEffect, Fragment, useRef } from "react";
 import { assert } from "keycloakify/tools/assert";
 import type { KcClsx } from "keycloakify/login/lib/kcClsx";
 import {
@@ -20,10 +20,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Field, FieldLabel, FieldDescription } from "@/components/ui/field";
 import { PasswordInput } from "@/components/overrides/custom-password-input";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
-export default function UserProfileFormFields(props: UserProfileFormFieldsProps<KcContext, I18n>) {
-  const { kcContext, i18n, kcClsx, onIsFormSubmittableValueChange, doMakeUserConfirmPassword, BeforeField, AfterField } = props;
+export type UserProfileFormFieldsPropsExtended = UserProfileFormFieldsProps<KcContext, I18n> & {
+  formDataRef?: React.MutableRefObject<(() => Record<string, string | string[]>) | null>;
+};
+
+export default function UserProfileFormFields(props: UserProfileFormFieldsPropsExtended) {
+  const { kcContext, i18n, kcClsx, onIsFormSubmittableValueChange, doMakeUserConfirmPassword, BeforeField, AfterField, formDataRef } = props;
 
   const { advancedMsg } = i18n;
 
@@ -36,9 +39,22 @@ export default function UserProfileFormFields(props: UserProfileFormFieldsProps<
     doMakeUserConfirmPassword
   });
 
+  const formFieldStatesRef = useRef(formFieldStates);
+  formFieldStatesRef.current = formFieldStates;
+
   useEffect(() => {
     onIsFormSubmittableValueChange(isFormSubmittable);
   }, [isFormSubmittable]);
+
+  useEffect(() => {
+    if (formDataRef) {
+      formDataRef.current = () =>
+        Object.fromEntries(formFieldStatesRef.current.map(({ attribute, valueOrValues }) => [attribute.name, valueOrValues]));
+    }
+    return () => {
+      if (formDataRef) formDataRef.current = null;
+    };
+  }, [formDataRef]);
 
   const groupNameRef = { current: "" };
 
@@ -124,27 +140,26 @@ function GroupLabel(props: {
     if (groupNameRef.current !== "") {
       assert(attribute.group !== undefined);
 
+      const groupDisplayHeader = attribute.group.displayHeader ?? "";
+      const groupHeaderText = groupDisplayHeader !== "" ? advancedMsg(groupDisplayHeader) : attribute.group.name;
+
+      const groupDisplayDescription = attribute.group.displayDescription ?? "";
+      const groupDescriptionText = groupDisplayDescription !== "" ? advancedMsg(groupDisplayDescription) : "";
+
       return (
-        <Card
-          className="mb-6"
+        <section
+          className="mt-6 pt-6 border-t border-border"
           {...Object.fromEntries(Object.entries(attribute.group.html5DataAnnotations).map(([key, value]) => [`data-${key}`, value]))}
         >
-          {(() => {
-            const groupDisplayHeader = attribute.group.displayHeader ?? "";
-            const groupHeaderText = groupDisplayHeader !== "" ? advancedMsg(groupDisplayHeader) : attribute.group.name;
-
-            const groupDisplayDescription = attribute.group.displayDescription ?? "";
-            const groupDescriptionText = groupDisplayDescription !== "" ? advancedMsg(groupDisplayDescription) : "";
-
-            return (
-              <CardHeader>
-                <CardTitle id={`header-${attribute.group.name}`}>{groupHeaderText}</CardTitle>
-                {groupDescriptionText && <CardDescription id={`description-${attribute.group.name}`}>{groupDescriptionText}</CardDescription>}
-              </CardHeader>
-            );
-          })()}
-          <CardContent className="pb-4">{/* Form fields for this group will be rendered here */}</CardContent>
-        </Card>
+          <h2 className="text-xl font-semibold" id={`header-${attribute.group.name}`}>
+            {groupHeaderText}
+          </h2>
+          {groupDescriptionText && (
+            <p className="text-sm text-muted-foreground mt-2" id={`description-${attribute.group.name}`}>
+              {groupDescriptionText}
+            </p>
+          )}
+        </section>
       );
     }
   }
@@ -188,6 +203,55 @@ type InputFieldByTypeProps = {
   kcClsx: KcClsx;
 };
 
+function MultivaluedInputBlock(props: InputFieldByTypeProps & { values: string[] }) {
+  const { attribute, values, dispatchFormAction, i18n, displayableErrors } = props;
+  const InputComponent = Input;
+
+  const inputType = (() => {
+    const { inputType } = attribute.annotations;
+    if (inputType?.startsWith("html5-")) return inputType.slice(6);
+    return inputType ?? "text";
+  })();
+
+  return (
+    <div className="flex flex-col gap-3">
+      {values.map((value, fieldIndex) => {
+        const hasError = displayableErrors.some(error => error.fieldIndex === fieldIndex);
+
+        return (
+          <div key={fieldIndex} className="flex flex-col gap-2">
+            <InputComponent
+              type={inputType}
+              id={`${attribute.name}-${fieldIndex}`}
+              name={attribute.name}
+              value={value}
+              className={hasError ? "border-destructive" : ""}
+              aria-invalid={hasError}
+              disabled={attribute.readOnly}
+              onChange={event =>
+                dispatchFormAction({
+                  action: "update",
+                  name: attribute.name,
+                  valueOrValues: values.map((v, i) => (i === fieldIndex ? event.target.value : v))
+                })
+              }
+              onBlur={() => dispatchFormAction({ action: "focus lost", name: attribute.name, fieldIndex })}
+            />
+            <FieldErrors attribute={attribute} displayableErrors={displayableErrors} fieldIndex={fieldIndex} />
+            <AddRemoveButtonsMultiValuedAttribute
+              attribute={attribute}
+              values={values}
+              fieldIndex={fieldIndex}
+              dispatchFormAction={dispatchFormAction}
+              i18n={i18n}
+            />
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 function InputFieldByType(props: InputFieldByTypeProps) {
   const { attribute, valueOrValues } = props;
 
@@ -203,18 +267,10 @@ function InputFieldByType(props: InputFieldByTypeProps) {
       return <CheckboxesTag {...props} />;
     default: {
       if (valueOrValues instanceof Array) {
-        return (
-          <div className="space-y-4">
-            {valueOrValues.map((...[, i]) => (
-              <InputTag key={i} {...props} fieldIndex={i} />
-            ))}
-          </div>
-        );
+        return <MultivaluedInputBlock {...props} values={valueOrValues} />;
       }
 
-      const inputNode = <InputTag {...props} fieldIndex={undefined} />;
-
-      return inputNode;
+      return <InputTag {...props} fieldIndex={undefined} />;
     }
   }
 }

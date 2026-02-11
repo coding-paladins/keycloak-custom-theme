@@ -80,4 +80,3 @@ export default function Info(props: PageProps<Extract<KcContext, { pageId: "info
     </Template>
   );
 }
-

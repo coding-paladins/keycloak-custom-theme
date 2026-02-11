@@ -37,4 +37,3 @@ export default function LinkIdpAction(props: PageProps<Extract<KcContext, { page
     </Template>
   );
 }
-

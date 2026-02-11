@@ -55,23 +55,11 @@ export default function UpdateEmail(props: UpdateEmailProps) {
         </form>
       </TemplateContent>
       <TemplateFooter className="flex-col gap-2">
-        <Button
-          type="submit"
-          form="kc-update-email-form"
-          disabled={!isFormSubmittable}
-          className="w-full"
-        >
+        <Button type="submit" form="kc-update-email-form" disabled={!isFormSubmittable} className="w-full">
           {msgStr("doSubmit")}
         </Button>
         {isAppInitiatedAction && (
-          <Button
-            type="submit"
-            form="kc-update-email-form"
-            name="cancel-aia"
-            value="true"
-            variant="outline"
-            className="w-full"
-          >
+          <Button type="submit" form="kc-update-email-form" name="cancel-aia" value="true" variant="outline" className="w-full">
             {msg("doCancel")}
           </Button>
         )}
@@ -79,4 +67,3 @@ export default function UpdateEmail(props: UpdateEmailProps) {
     </Template>
   );
 }
-

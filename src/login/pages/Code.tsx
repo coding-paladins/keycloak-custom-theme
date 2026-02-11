@@ -41,4 +41,3 @@ export default function Code(props: PageProps<Extract<KcContext, { pageId: "code
     </Template>
   );
 }
-

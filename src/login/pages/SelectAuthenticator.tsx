@@ -55,4 +55,3 @@ export default function SelectAuthenticator(props: PageProps<Extract<KcContext, 
     </Template>
   );
 }
-

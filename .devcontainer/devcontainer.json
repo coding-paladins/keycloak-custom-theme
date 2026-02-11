@@ -8,9 +8,7 @@
     "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
     "source=${localEnv:HOME}/.ssh,target=/tmp/host-ssh,type=bind,readonly"
   ],
-  "runArgs": [
-    "--init"
-  ],
+  "runArgs": ["--init"],
   "containerEnv": {
     "KUBECONFIG": "/workspaces/keycloak-custom-theme/kubeconfig"
   },

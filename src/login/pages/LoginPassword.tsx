@@ -101,12 +101,7 @@ export default function LoginPassword(props: PageProps<Extract<KcContext, { page
               </form>
             )}
 
-            <Button
-              id={webAuthnButtonId}
-              type="button"
-              variant="outline"
-              className="w-full gap-2"
-            >
+            <Button id={webAuthnButtonId} type="button" variant="outline" className="w-full gap-2">
               <Fingerprint className="w-4 h-4" />
               {msgStr("passkey-doAuthenticate")}
             </Button>
