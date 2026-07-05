@@ -191,8 +191,8 @@ jobs:
         run: |
           set -euo pipefail
           if [ -z "${RENOVATE_URL:-}" ] || [ -z "${RENOVATE_API_SECRET:-}" ]; then
-            echo "RENOVATE_URL and RENOVATE_API_SECRET must be configured." >&2
-            exit 1
+            echo "RENOVATE_URL and RENOVATE_API_SECRET not configured; skipping Renovate trigger."
+            exit 0
           fi
           response=$(curl -sf -X POST \
             -H "Authorization: Bearer ${RENOVATE_API_SECRET}" \
