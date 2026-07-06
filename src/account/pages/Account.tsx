@@ -13,7 +13,7 @@ import UserProfileFormFields from "@/login/UserProfileFormFields";
 import { useEnvironment } from "@/shared/keycloak-ui-shared";
 import { useEnvironmentOptional } from "@/shared/keycloak-ui-shared/context/KeycloakContext";
 import { accountUpdateAccount, formDataToUserRepresentation } from "../accountFetch";
-import { fetchAccountPageData, fetchAccountMessages } from "../accountFetchAll";
+import { fetchAccountPageData, fetchAccountMessages, fetchApplicationsPageData } from "../accountFetchAll";
 import { LoginRedirectError } from "../accountFetch";
 import { getCachedProfile, getCachedMessages, getAccountCacheUserId } from "../accountDataCache";
 import { parseAccountBaseUrl } from "@/lib/utils";
@@ -292,6 +292,12 @@ function applyCachedMessages(kcContext: AccountContext, cachedProfile: Record<st
   }
 }
 
+function prefetchApplications(context: ReturnType<typeof useEnvironment>): void {
+  void fetchApplicationsPageData(context).catch(() => {
+    /* warm cache for Applications navigation */
+  });
+}
+
 function AccountFetcher(props: PageProps<AccountContext, I18n>) {
   const { kcContext } = props;
   const context = useEnvironment();
@@ -349,6 +355,7 @@ function AccountFetcher(props: PageProps<AccountContext, I18n>) {
             setIsLoading(false);
           }
           await loadMessagesIfNeeded(cachedProfile);
+          prefetchApplications(context);
           return;
         }
 
@@ -363,6 +370,7 @@ function AccountFetcher(props: PageProps<AccountContext, I18n>) {
 
         applyCachedMessages(kcContext, profile ?? {}, messages);
         setApiResponse(profile ?? null);
+        prefetchApplications(context);
       } catch (err) {
         loadError = err;
         if (err instanceof LoginRedirectError) {

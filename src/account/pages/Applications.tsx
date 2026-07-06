@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { getKcClsx } from "keycloakify/account/lib/kcClsx";
 import type { PageProps } from "keycloakify/account/pages/PageProps";
 import type { KcContext } from "../KcContext";
@@ -10,6 +10,14 @@ import type { ApiApplication } from "../accountFetchApplications";
 import { Button } from "@/components/ui/button";
 import { AppWindow, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ApplicationsListSkeleton } from "../ApplicationsListSkeleton";
+
+function getServerApplications(
+  kcContext: Extract<KcContext, { pageId: "applications.ftl" }>
+): ApiApplication[] {
+  const serverApplications = kcContext.applications?.applications ?? [];
+  return serverApplications.map(app => mapServerApplicationToApi(app as Record<string, unknown>));
+}
 
 function mapServerApplicationToApi(app: Record<string, unknown>): ApiApplication {
   const client = (app.client as Record<string, unknown>) ?? {};
@@ -30,9 +38,10 @@ function mapServerApplicationToApi(app: Record<string, unknown>): ApiApplication
 function ApplicationsContent(
   props: PageProps<Extract<KcContext, { pageId: "applications.ftl" }>, I18n> & {
     applications: ApiApplication[];
+    isLoading: boolean;
   }
 ) {
-  const { kcContext, i18n, doUseDefaultCss, classes, Template, applications } = props;
+  const { kcContext, i18n, doUseDefaultCss, classes, Template, applications, isLoading } = props;
 
   const { kcClsx } = getKcClsx({
     doUseDefaultCss,
@@ -63,7 +72,9 @@ function ApplicationsContent(
           <input type="hidden" id="stateChecker" name="stateChecker" value={stateChecker} />
           <input type="hidden" id="referrer" name="referrer" value={kcContext.referrer?.url ?? ""} />
 
-          {applications.length === 0 ? (
+          {isLoading ? (
+            <ApplicationsListSkeleton />
+          ) : applications.length === 0 ? (
             <div className="rounded-xl border border-dashed border-muted-foreground/30 bg-muted/30 px-4 py-4 text-center text-sm text-muted-foreground">
               no applications
             </div>
@@ -162,14 +173,19 @@ function ApplicationsFetcher(props: PageProps<Extract<KcContext, { pageId: "appl
   const { kcContext } = props;
   const context = useEnvironment();
   const userId = getAccountCacheUserId(context.keycloak);
+  const serverApplications = useMemo(() => getServerApplications(kcContext), [kcContext]);
   const [applications, setApplications] = useState<ApiApplication[]>(() => {
     const cached = getCachedApplications(context.environment, userId);
-    return cached ?? [];
+    if (cached != null) return cached;
+    return serverApplications;
+  });
+  const [isLoading, setIsLoading] = useState(() => {
+    const cached = getCachedApplications(context.environment, userId);
+    return cached == null && serverApplications.length === 0;
   });
 
   const serverBaseUrl = context.environment.serverBaseUrl;
   const realm = context.environment.realm;
-  const locale = kcContext.locale?.currentLanguageTag ?? "en";
   const loadedRef = useRef(false);
 
   useEffect(() => {
@@ -179,23 +195,45 @@ function ApplicationsFetcher(props: PageProps<Extract<KcContext, { pageId: "appl
     let cancelled = false;
     const abortController = new AbortController();
 
+    async function refreshApplications() {
+      const applications = await fetchApplicationsPageData(context, abortController.signal);
+      if (!cancelled) {
+        setApplications(applications);
+      }
+    }
+
     async function load() {
       try {
         const cached = getCachedApplications(context.environment, userId);
         if (cached != null) {
           if (!cancelled) {
             setApplications(cached);
+            setIsLoading(false);
           }
           return;
         }
 
-        const applications = await fetchApplicationsPageData(context, abortController.signal);
-        if (!cancelled) {
-          setApplications(applications);
+        if (serverApplications.length > 0) {
+          if (!cancelled) {
+            setApplications(serverApplications);
+            setIsLoading(false);
+          }
+          try {
+            await refreshApplications();
+          } catch {
+            /* keep server-rendered list */
+          }
+          return;
         }
+
+        await refreshApplications();
       } catch {
         if (!cancelled) {
           setApplications([]);
+        }
+      } finally {
+        if (!cancelled) {
+          setIsLoading(false);
         }
       }
     }
@@ -205,9 +243,9 @@ function ApplicationsFetcher(props: PageProps<Extract<KcContext, { pageId: "appl
       cancelled = true;
       abortController.abort();
     };
-  }, [serverBaseUrl, realm, locale]);
+  }, [serverBaseUrl, realm, context, userId, serverApplications]);
 
-  return <ApplicationsContent {...props} applications={applications} />;
+  return <ApplicationsContent {...props} applications={applications} isLoading={isLoading} />;
 }
 
 export default function Applications(
@@ -216,9 +254,8 @@ export default function Applications(
   }
 ) {
   if (props.useMockData) {
-    const serverApplications = props.kcContext.applications?.applications ?? [];
-    const applications = serverApplications.map(app => mapServerApplicationToApi(app as Record<string, unknown>));
-    return <ApplicationsContent {...props} applications={applications} />;
+    const applications = getServerApplications(props.kcContext);
+    return <ApplicationsContent {...props} applications={applications} isLoading={false} />;
   }
 
   return <ApplicationsFetcher {...props} />;

@@ -12,6 +12,7 @@ import { LogOut, User, Key, Shield, Smartphone, Link2, Monitor, List, FileText, 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { AccountLoadingSkeleton } from "@/account/AccountLoadingSkeleton";
 
 export default function Template(props: TemplateProps<KcContext, I18n> & { defaultOpenMobileMenu?: boolean }) {
   const { kcContext, i18n, doUseDefaultCss, active, classes, children, defaultOpenMobileMenu = false } = props;
@@ -42,7 +43,7 @@ export default function Template(props: TemplateProps<KcContext, I18n> & { defau
   const { isReadyToRender } = useInitialize({ kcContext, doUseDefaultCss });
 
   if (!isReadyToRender) {
-    return null;
+    return <AccountLoadingSkeleton />;
   }
 
   const navLinkClass = (isActive: boolean) =>

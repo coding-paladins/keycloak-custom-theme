@@ -24,6 +24,7 @@ import { AlertProvider } from "../alerts/Alerts";
 import { ErrorPage } from "./ErrorPage";
 import { Help } from "./HelpContext";
 import { BaseEnvironment } from "./environment";
+import { AccountLoadingSkeleton } from "@/account/AccountLoadingSkeleton";
 
 function getAccountBasePath(): string {
   if (typeof window === "undefined") return "/";
@@ -117,7 +118,7 @@ export const KeycloakProvider = <T extends BaseEnvironment>({
   }
 
   if (!init) {
-    return null;
+    return <AccountLoadingSkeleton />;
   }
 
   return (
