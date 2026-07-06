@@ -177,34 +177,3 @@ jobs:
           repo=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
           image="${{ env.REGISTRY }}/${repo}"
           echo "- \`${image}:${VERSION}\` (+ \`latest\`)" >> "$GITHUB_STEP_SUMMARY"
-
-  trigger-renovate:
-    name: Trigger Renovate
-    needs: docker
-    if: |
-      github.event_name == 'push' &&
-      github.ref == 'refs/heads/main' &&
-      needs.docker.result == 'success'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Enqueue societycell Renovate scan
-        env:
-          RENOVATE_URL: ${{ secrets.RENOVATE_URL }}
-          RENOVATE_API_SECRET: ${{ secrets.RENOVATE_API_SECRET }}
-        run: |
-          set -euo pipefail
-          if [ -z "${RENOVATE_URL:-}" ] || [ -z "${RENOVATE_API_SECRET:-}" ]; then
-            echo "RENOVATE_URL and RENOVATE_API_SECRET not configured; skipping Renovate trigger."
-            exit 0
-          fi
-          response=$(curl -sf -X POST \
-            -H "Authorization: Bearer ${RENOVATE_API_SECRET}" \
-            -w "\n%{http_code}" \
-            "${RENOVATE_URL}/api/v1/repos/coding-paladins/societycell/-/jobs/run")
-          body=$(echo "$response" | head -n -1)
-          code=$(echo "$response" | tail -n 1)
-          echo "$body"
-          case "$code" in
-            200|201) echo "Renovate job queued." ;;
-            *) echo "Unexpected HTTP ${code}" >&2; exit 1 ;;
-          esac
