@@ -2,8 +2,7 @@
 
 # Keycloak Custom Theme
 
-![build status](https://github.com/paulgrammer/keycloak-custom-theme/actions/workflows/build.yaml/badge.svg)
-[![Trivy vulnerability scanner](https://github.com/paulgrammer/keycloak-custom-theme/actions/workflows/trivy.yaml/badge.svg?branch=main)](https://github.com/paulgrammer/keycloak-custom-theme/actions/workflows/trivy.yaml)
+![CI/CD](https://github.com/coding-paladins/keycloak-custom-theme/actions/workflows/ci-cd.yml/badge.svg)
 <a href="https://ko-fi.com/paulgrammer">
 <img src="https://ko-fi.com/img/githubbutton_sm.svg" width="150" alt="Support on Ko-fi"/>
 </a>
@@ -19,7 +18,7 @@ A modern, production-ready custom theme for Keycloak built with React, TypeScrip
 
 - **Developer Experience**
   - TypeScript for type safety
-  - Storybook for component development - [View Live Storybook](https://cloakwise-io.github.io/keycloak-custom-theme)
+  - Storybook for local component development
   - Hot module replacement with Vite
   - ESLint and Prettier for code quality
 
@@ -60,8 +59,6 @@ pnpm storybook
 ```
 
 Storybook will be available at `http://localhost:6006`.
-
-**Live Storybook:** [https://cloakwise-io.github.io/keycloak-custom-theme](https://cloakwise-io.github.io/keycloak-custom-theme)
 
 ## Building the Theme
 
@@ -198,7 +195,6 @@ For deploying Keycloak on Kubernetes, follow the official guide:
 
 ## Documentation
 
-- [Live Storybook](https://cloakwise-io.github.io/keycloak-custom-theme) - Interactive component documentation
 - [Keycloakify Documentation](https://docs.keycloakify.dev)
 - [shadcn/ui Documentation](https://ui.shadcn.com)
 - [Tailwind CSS Documentation](https://tailwindcss.com)
