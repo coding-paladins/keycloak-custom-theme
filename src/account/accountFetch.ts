@@ -39,13 +39,10 @@ export async function fetchKeycloakMessages(
     `${base}/resources/${environment.realm}/login/${locale}`
   ];
 
-  const results: Record<string, string>[] = [];
-  for (const url of urls) {
-    const result = await fetchThemeMessagesFromUrl(url, headers, options.signal);
-    results.push(result);
-  }
-
-  const merged = { ...results[1], ...results[0] };
+  const [accountMessages = {}, loginMessages = {}] = await Promise.all(
+    urls.map(url => fetchThemeMessagesFromUrl(url, headers, options.signal))
+  );
+  const merged = { ...loginMessages, ...accountMessages };
   return merged;
 }
 

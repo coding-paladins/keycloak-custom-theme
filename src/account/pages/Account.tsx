@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback, Suspense, lazy } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import type { PageProps } from "keycloakify/account/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
@@ -9,11 +9,11 @@ import { getKcClsx } from "keycloakify/login/lib/kcClsx";
 import { buildAccountProfileContext } from "../accountProfileContext";
 import { AccountProfileSkeleton } from "@/account/AccountProfileSkeleton";
 
-const UserProfileFormFields = lazy(() => import("@/login/UserProfileFormFields"));
+import UserProfileFormFields from "@/login/UserProfileFormFields";
 import { useEnvironment } from "@/shared/keycloak-ui-shared";
 import { useEnvironmentOptional } from "@/shared/keycloak-ui-shared/context/KeycloakContext";
 import { accountUpdateAccount, formDataToUserRepresentation } from "../accountFetch";
-import { fetchAllAccountData } from "../accountFetchAll";
+import { fetchAccountPageData, fetchAccountMessages } from "../accountFetchAll";
 import { LoginRedirectError } from "../accountFetch";
 import { getCachedProfile, getCachedMessages, getAccountCacheUserId } from "../accountDataCache";
 import { parseAccountBaseUrl } from "@/lib/utils";
@@ -229,18 +229,16 @@ function AccountContent(
                 </p>
               )}
 
-              <Suspense fallback={<AccountProfileSkeleton />}>
-                <UserProfileFormFields
-                  kcContext={profileContext as unknown as Parameters<typeof import("@/login/UserProfileFormFields").default>[0]["kcContext"]}
-                  i18n={i18n as Parameters<typeof import("@/login/UserProfileFormFields").default>[0]["i18n"]}
-                  kcClsx={kcClsx}
-                  onIsFormSubmittableValueChange={setIsFormSubmittable}
-                  doMakeUserConfirmPassword={false}
-                  formDataRef={formDataRef}
-                  onFieldValueChange={handleFieldValueChange}
-                  AfterField={hasServerFieldErrors ? ServerFieldErrorAfterField : undefined}
-                />
-              </Suspense>
+              <UserProfileFormFields
+                kcContext={profileContext as unknown as Parameters<typeof import("@/login/UserProfileFormFields").default>[0]["kcContext"]}
+                i18n={i18n as Parameters<typeof import("@/login/UserProfileFormFields").default>[0]["i18n"]}
+                kcClsx={kcClsx}
+                onIsFormSubmittableValueChange={setIsFormSubmittable}
+                doMakeUserConfirmPassword={false}
+                formDataRef={formDataRef}
+                onFieldValueChange={handleFieldValueChange}
+                AfterField={hasServerFieldErrors ? ServerFieldErrorAfterField : undefined}
+              />
             </form>
 
             <div className="flex flex-col gap-2 pt-2 md:flex-row md:justify-between md:items-end md:gap-2">
@@ -311,11 +309,7 @@ function AccountFetcher(props: PageProps<AccountContext, I18n>) {
     }
     return null;
   });
-  const [isLoading, setIsLoading] = useState(() => {
-    const cachedProfile = getCachedProfile(context.environment, userId);
-    const cachedMessages = getCachedMessages(context.environment, userId, locale);
-    return cachedProfile == null || cachedMessages == null;
-  });
+  const [isLoading, setIsLoading] = useState(() => getCachedProfile(context.environment, userId) == null);
 
   const serverBaseUrl = context.environment.serverBaseUrl;
   const realm = context.environment.realm;
@@ -329,13 +323,40 @@ function AccountFetcher(props: PageProps<AccountContext, I18n>) {
     let loadError: unknown;
     const abortController = new AbortController();
 
+    async function loadMessagesIfNeeded(profile: Record<string, unknown>) {
+      const cachedMessages = getCachedMessages(context.environment, userId, locale);
+      if (cachedMessages != null) {
+        applyCachedMessages(kcContext, profile, cachedMessages);
+        return;
+      }
+      try {
+        const messages = await fetchAccountMessages(context, locale, abortController.signal);
+        if (!cancelled) {
+          applyCachedMessages(kcContext, profile, messages);
+        }
+      } catch {
+        /* messages are best-effort */
+      }
+    }
+
     async function load() {
       loadError = undefined;
       try {
-        if (!isLoading) {
+        const cachedProfile = getCachedProfile(context.environment, userId);
+        if (cachedProfile != null) {
+          if (!cancelled) {
+            setApiResponse(cachedProfile);
+            setIsLoading(false);
+          }
+          await loadMessagesIfNeeded(cachedProfile);
           return;
         }
-        const { profile, messages } = await fetchAllAccountData(context, locale, abortController.signal);
+
+        const { profile, messages } = await fetchAccountPageData(
+          context,
+          locale,
+          abortController.signal
+        );
         if (cancelled) {
           return;
         }
@@ -360,13 +381,13 @@ function AccountFetcher(props: PageProps<AccountContext, I18n>) {
       cancelled = true;
       abortController.abort();
     };
-  }, [serverBaseUrl, realm, locale, isLoading]);
+  }, [serverBaseUrl, realm, locale, context, kcContext, userId]);
 
   const profileContext = buildAccountProfileContext(kcContext, apiResponse ?? undefined);
 
   const handleSaveSuccess = async () => {
     try {
-      const { profile, messages } = await fetchAllAccountData(context, locale);
+      const { profile, messages } = await fetchAccountPageData(context, locale);
       applyCachedMessages(kcContext, profile ?? {}, messages);
       setApiResponse(profile ?? null);
     } catch {
@@ -411,7 +432,7 @@ function AccountContentWithOptionalContext(
   const handleSaveSuccess = async () => {
     if (!context) return;
     try {
-      const { profile, messages } = await fetchAllAccountData(context, locale);
+      const { profile, messages } = await fetchAccountPageData(context, locale);
       applyCachedMessages(props.kcContext, profile ?? {}, messages);
       setSavedProfile(profile ?? null);
     } catch {

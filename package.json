@@ -16,7 +16,8 @@
     "lint": "eslint .",
     "lint:account": "eslint src/account",
     "typecheck": "tsc --noEmit",
-    "check": "pnpm run typecheck && pnpm run lint && pnpm run format"
+    "check": "pnpm run typecheck && pnpm run lint && pnpm run format",
+    "bench:account": "node scripts/benchmark-account-load.mjs"
   },
   "license": "MIT",
   "keywords": [],

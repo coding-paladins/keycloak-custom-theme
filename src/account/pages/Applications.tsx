@@ -5,7 +5,7 @@ import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
 import { useEnvironment } from "@/shared/keycloak-ui-shared";
 import { getCachedApplications, getAccountCacheUserId } from "../accountDataCache";
-import { fetchAllAccountData } from "../accountFetchAll";
+import { fetchApplicationsPageData } from "../accountFetchAll";
 import type { ApiApplication } from "../accountFetchApplications";
 import { Button } from "@/components/ui/button";
 import { AppWindow, ExternalLink } from "lucide-react";
@@ -189,7 +189,7 @@ function ApplicationsFetcher(props: PageProps<Extract<KcContext, { pageId: "appl
           return;
         }
 
-        const { applications } = await fetchAllAccountData(context, locale, abortController.signal);
+        const applications = await fetchApplicationsPageData(context, abortController.signal);
         if (!cancelled) {
           setApplications(applications);
         }
