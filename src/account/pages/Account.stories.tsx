@@ -49,6 +49,50 @@ export const WithValidationErrors: Story = {
           firstName: "",
           lastName: "Doe"
         },
+        profile: {
+          attributesByName: {
+            username: {
+              name: "username",
+              displayName: "${username}",
+              required: true,
+              value: "john_doe",
+              readOnly: false,
+              validators: {},
+              annotations: {},
+              html5DataAnnotations: {}
+            },
+            email: {
+              name: "email",
+              displayName: "${email}",
+              required: true,
+              value: "",
+              readOnly: false,
+              validators: {},
+              annotations: { inputType: "html5-email" },
+              html5DataAnnotations: {}
+            },
+            firstName: {
+              name: "firstName",
+              displayName: "${firstName}",
+              required: true,
+              value: "",
+              readOnly: false,
+              validators: {},
+              annotations: {},
+              html5DataAnnotations: {}
+            },
+            lastName: {
+              name: "lastName",
+              displayName: "${lastName}",
+              required: true,
+              value: "Doe",
+              readOnly: false,
+              validators: {},
+              annotations: {},
+              html5DataAnnotations: {}
+            }
+          }
+        },
         realm: {
           registrationEmailAsUsername: false,
           editUsernameAllowed: true

@@ -4,7 +4,7 @@ import type { PageProps } from "keycloakify/account/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
 import { useEnvironment } from "@/shared/keycloak-ui-shared";
-import { getCachedApplications } from "../accountDataCache";
+import { getCachedApplications, getAccountCacheUserId } from "../accountDataCache";
 import { fetchAllAccountData } from "../accountFetchAll";
 import type { ApiApplication } from "../accountFetchApplications";
 import { Button } from "@/components/ui/button";
@@ -161,8 +161,9 @@ function ApplicationsContent(
 function ApplicationsFetcher(props: PageProps<Extract<KcContext, { pageId: "applications.ftl" }>, I18n>) {
   const { kcContext } = props;
   const context = useEnvironment();
+  const userId = getAccountCacheUserId(context.keycloak);
   const [applications, setApplications] = useState<ApiApplication[]>(() => {
-    const cached = getCachedApplications(context.environment);
+    const cached = getCachedApplications(context.environment, userId);
     return cached ?? [];
   });
 
@@ -180,7 +181,7 @@ function ApplicationsFetcher(props: PageProps<Extract<KcContext, { pageId: "appl
 
     async function load() {
       try {
-        const cached = getCachedApplications(context.environment);
+        const cached = getCachedApplications(context.environment, userId);
         if (cached != null) {
           if (!cancelled) {
             setApplications(cached);

@@ -1,6 +1,8 @@
 import { createRoot } from "react-dom/client";
 import { StrictMode } from "react";
 import { KcPage } from "./kc.gen";
+import { ThemeErrorBoundary } from "./components/theme-error-boundary";
+import { ThemeErrorFallback } from "./components/theme-error-fallback";
 
 // The following block can be uncommented to test a specific page with `pnpm dev`
 // Don't forget to comment back or your bundle size will increase
@@ -37,15 +39,25 @@ async function bootstrapAndRender(): Promise<void> {
 
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
-      {!window.kcContext ? (
-        <h1>No Keycloak Context</h1>
-      ) : (
-        <KcPage kcContext={window.kcContext} />
-      )}
+      <ThemeErrorBoundary>
+        {!window.kcContext ? (
+          <ThemeErrorFallback title="No Keycloak context" message="This page must be loaded from Keycloak." />
+        ) : (
+          <KcPage kcContext={window.kcContext} />
+        )}
+      </ThemeErrorBoundary>
     </StrictMode>
   );
 }
 
 bootstrapAndRender().catch(err => {
   console.error("[keycloak] bootstrapAndRender: fatal error", err);
+  const root = document.getElementById("root");
+  if (root) {
+    createRoot(root).render(
+      <ThemeErrorFallback
+        message={err instanceof Error ? err.message : "The theme failed to load."}
+      />
+    );
+  }
 });

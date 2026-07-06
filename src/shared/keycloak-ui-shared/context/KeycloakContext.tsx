@@ -42,10 +42,7 @@ export type KeycloakContext<T extends BaseEnvironment = BaseEnvironment> =
     keycloak: Keycloak;
   };
 
-const createKeycloakEnvContext = <T extends BaseEnvironment>() =>
-  createContext<KeycloakContext<T> | undefined>(undefined);
-
-let KeycloakEnvContext: any;
+const KeycloakEnvContext = createContext<KeycloakContext<BaseEnvironment> | undefined>(undefined);
 
 export const useEnvironment = <T extends BaseEnvironment = BaseEnvironment>() => {
   const context = useContext<KeycloakContext<T>>(KeycloakEnvContext);
@@ -66,7 +63,6 @@ export const KeycloakProvider = <T extends BaseEnvironment>({
   environment,
   children
 }: PropsWithChildren<KeycloakContextProps<T>>) => {
-  KeycloakEnvContext = createKeycloakEnvContext<T>();
   const calledOnce = useRef(false);
   const [init, setInit] = useState(false);
   const [error, setError] = useState<unknown>();

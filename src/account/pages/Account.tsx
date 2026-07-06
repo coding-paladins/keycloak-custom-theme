@@ -15,7 +15,7 @@ import { useEnvironmentOptional } from "@/shared/keycloak-ui-shared/context/Keyc
 import { accountUpdateAccount, formDataToUserRepresentation } from "../accountFetch";
 import { fetchAllAccountData } from "../accountFetchAll";
 import { LoginRedirectError } from "../accountFetch";
-import { getCachedProfile, getCachedMessages } from "../accountDataCache";
+import { getCachedProfile, getCachedMessages, getAccountCacheUserId } from "../accountDataCache";
 import { parseAccountBaseUrl } from "@/lib/utils";
 
 type AccountContext = Extract<KcContext, { pageId: "account.ftl" }>;
@@ -172,6 +172,17 @@ function AccountContent(
     }
   };
 
+  const handleFieldValueChange = useCallback((fieldName: string) => {
+    setServerFieldErrors(previous => {
+      if (!(fieldName in previous)) {
+        return previous;
+      }
+      const next = { ...previous };
+      delete next[fieldName];
+      return next;
+    });
+  }, []);
+
   const ServerFieldErrorAfterField = useCallback(
     (fieldProps: { attribute: { name: string } }) => {
       const errorMessage = serverFieldErrors[fieldProps.attribute.name];
@@ -226,6 +237,7 @@ function AccountContent(
                   onIsFormSubmittableValueChange={setIsFormSubmittable}
                   doMakeUserConfirmPassword={false}
                   formDataRef={formDataRef}
+                  onFieldValueChange={handleFieldValueChange}
                   AfterField={hasServerFieldErrors ? ServerFieldErrorAfterField : undefined}
                 />
               </Suspense>
@@ -285,11 +297,12 @@ function applyCachedMessages(kcContext: AccountContext, cachedProfile: Record<st
 function AccountFetcher(props: PageProps<AccountContext, I18n>) {
   const { kcContext } = props;
   const context = useEnvironment();
+  const userId = getAccountCacheUserId(context.keycloak);
 
   const locale = kcContext.locale?.currentLanguageTag ?? "en";
   const [apiResponse, setApiResponse] = useState<Record<string, unknown> | null>(() => {
-    const cachedProfile = getCachedProfile(context.environment);
-    const cachedMessages = getCachedMessages(context.environment, locale);
+    const cachedProfile = getCachedProfile(context.environment, userId);
+    const cachedMessages = getCachedMessages(context.environment, userId, locale);
     if (cachedProfile != null) {
       if (cachedMessages != null) {
         applyCachedMessages(kcContext, cachedProfile, cachedMessages);
@@ -299,8 +312,8 @@ function AccountFetcher(props: PageProps<AccountContext, I18n>) {
     return null;
   });
   const [isLoading, setIsLoading] = useState(() => {
-    const cachedProfile = getCachedProfile(context.environment);
-    const cachedMessages = getCachedMessages(context.environment, locale);
+    const cachedProfile = getCachedProfile(context.environment, userId);
+    const cachedMessages = getCachedMessages(context.environment, userId, locale);
     return cachedProfile == null || cachedMessages == null;
   });
 

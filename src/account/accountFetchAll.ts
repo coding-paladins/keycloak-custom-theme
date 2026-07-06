@@ -6,7 +6,8 @@ import {
   setCachedProfile,
   setCachedMessages,
   setCachedApplications,
-  setCachedCredentials
+  setCachedCredentials,
+  getAccountCacheUserId
 } from "./accountDataCache";
 
 export type CredentialContainer = {
@@ -35,6 +36,7 @@ export async function fetchAllAccountData(
   signal?: AbortSignal
 ): Promise<AccountData> {
   const { environment } = context;
+  const userId = getAccountCacheUserId(context.keycloak);
 
   const profileSearchParams: Record<string, string> = { userProfileMetadata: "true" };
   if (locale) profileSearchParams.kc_locale = locale;
@@ -85,10 +87,10 @@ export async function fetchAllAccountData(
     }
   }
 
-  setCachedProfile(environment, profile);
-  setCachedMessages(environment, locale, messages);
-  setCachedApplications(environment, applications);
-  setCachedCredentials(environment, credentials);
+  setCachedProfile(environment, userId, profile);
+  setCachedMessages(environment, userId, locale, messages);
+  setCachedApplications(environment, userId, applications);
+  setCachedCredentials(environment, userId, credentials);
 
   return { profile, messages, applications, credentials };
 }

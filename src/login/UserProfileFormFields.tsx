@@ -1,4 +1,4 @@
-import { useEffect, Fragment, useRef } from "react";
+import { useEffect, Fragment, useRef, useCallback } from "react";
 import { assert } from "keycloakify/tools/assert";
 import type { KcClsx } from "keycloakify/login/lib/kcClsx";
 import {
@@ -23,21 +23,42 @@ import { PasswordInput } from "@/components/overrides/custom-password-input";
 
 export type UserProfileFormFieldsPropsExtended = UserProfileFormFieldsProps<KcContext, I18n> & {
   formDataRef?: React.MutableRefObject<(() => Record<string, string | string[]>) | null>;
+  onFieldValueChange?: (fieldName: string) => void;
 };
 
 export default function UserProfileFormFields(props: UserProfileFormFieldsPropsExtended) {
-  const { kcContext, i18n, kcClsx, onIsFormSubmittableValueChange, doMakeUserConfirmPassword, BeforeField, AfterField, formDataRef } = props;
+  const {
+    kcContext,
+    i18n,
+    kcClsx,
+    onIsFormSubmittableValueChange,
+    doMakeUserConfirmPassword,
+    BeforeField,
+    AfterField,
+    formDataRef,
+    onFieldValueChange
+  } = props;
 
   const { advancedMsg } = i18n;
 
   const {
     formState: { formFieldStates, isFormSubmittable },
-    dispatchFormAction
+    dispatchFormAction: dispatchFormActionBase
   } = useUserProfileForm({
     kcContext,
     i18n,
     doMakeUserConfirmPassword
   });
+
+  const dispatchFormAction = useCallback(
+    (action: FormAction) => {
+      dispatchFormActionBase(action);
+      if (onFieldValueChange && action.action === "update") {
+        onFieldValueChange(action.name);
+      }
+    },
+    [dispatchFormActionBase, onFieldValueChange]
+  );
 
   const formFieldStatesRef = useRef(formFieldStates);
   formFieldStatesRef.current = formFieldStates;

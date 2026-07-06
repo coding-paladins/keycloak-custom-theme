@@ -8,7 +8,7 @@ import { TemplateContent } from "@/login/TemplateComponents";
 export default function Error(props: PageProps<Extract<KcContext, { pageId: "error.ftl" }>, I18n>) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
   const { message, client, skipLink } = kcContext;
-  const { msg } = i18n;
+  const { msg, msgStr } = i18n;
 
   return (
     <Template
@@ -21,7 +21,12 @@ export default function Error(props: PageProps<Extract<KcContext, { pageId: "err
     >
       <TemplateContent className="space-y-4">
         <div id="kc-error-message" className="space-y-4">
-          <p className="text-sm text-muted-foreground" dangerouslySetInnerHTML={{ __html: kcSanitize(message.summary) }} />
+          <p
+            className="text-sm text-muted-foreground"
+            dangerouslySetInnerHTML={{
+              __html: kcSanitize(message?.summary ?? msgStr("errorTitle"))
+            }}
+          />
           {!skipLink && client !== undefined && client.baseUrl !== undefined && (
             <a id="backToApplication" href={client.baseUrl} className={buttonVariants({ variant: "link" })}>
               {msg("backToApplication")}

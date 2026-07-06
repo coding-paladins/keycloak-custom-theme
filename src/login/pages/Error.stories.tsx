@@ -62,3 +62,17 @@ export const WithSkipLink: Story = {
     />
   )
 };
+
+export const WithoutClient: Story = {
+  render: () => (
+    <KcPageStory
+      kcContext={{
+        client: undefined,
+        message: {
+          type: "error",
+          summary: "Invalid request"
+        }
+      }}
+    />
+  )
+};
